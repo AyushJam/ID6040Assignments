@@ -1,6 +1,9 @@
-import math
-import numpy as np
-import time
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Mar 20 12:01:49 2023
+
+@author: Bijo Sebastian
+"""
 
 try:
   import sim
@@ -174,35 +177,4 @@ def sim_shutdown():
   sim.simxFinish(client_ID)      
 
   return           
-
-def collission_check():
-    #Check collission between links and wall
-    global link1_handle
-    global link2_handle
-    global wall_handle
-    res, collisionState1 = sim.simxCheckCollision(client_ID, link1_handle, wall_handle, sim.simx_opmode_buffer)
-    res, collisionState2 = sim.simxCheckCollision(client_ID, link2_handle, wall_handle, sim.simx_opmode_buffer)
-    if collisionState1 or collisionState2:
-        return True
-    else:
-        return False
-
-def get_config_matrix():
-    #Get  config space for given scene    
-    global sim
-    global client_ID
-
-    config_space = np.array(bytearray(36*36), dtype=np.byte)
-    config_space.shape = (36, 36)
-    
-    for j1 in range(0,35,1):
-        for j2 in range(0,35,1):
-            joint_angles = [((j1*math.pi*10)/180), ((j2*math.pi*10)/180)]
-            set_joint_position(joint_angles)
-            time.sleep(0.5)
-            if collission_check():
-                config_space[j1,j2] = 1
-                 
-    print("current config space", config_space) 
-    return config_space
                 
