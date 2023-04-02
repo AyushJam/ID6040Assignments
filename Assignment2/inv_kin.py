@@ -19,7 +19,6 @@ def inv_kin_fn(goal_position):
     l1 = robot_params.link_1_length
     l2 = robot_params.link_2_length
 
-    # Three DoF planar manipulator
     # Algebraic solution
     cos_theta_2 = (x_desired**2 + y_desired**2 - l1**2 - l2**2) / (2 * l1 * l2)
 
